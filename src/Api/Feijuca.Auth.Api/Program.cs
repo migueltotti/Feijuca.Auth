@@ -27,6 +27,7 @@ builder.Services
     .AddOpenApi("v1", options => { options.AddDocumentTransformer<BearerSecuritySchemeTransformer>(); })
     .AddMongo(applicationSettings.MongoSettings)
     .AddApiAuthentication(out KeycloakSettings KeycloakSettings)
+    .AddHealthCheckers(KeycloakSettings)
     .AddEndpointsApiExplorer()
     .AddSwagger(KeycloakSettings)
     .AddHttpClients()    
@@ -53,6 +54,8 @@ var app = builder.Build();
 
 app.MapOpenApi();
 app.MapScalarApiReference(options => options.Servers = []);
+app.MapHealthChecks("/health");
+
 app.UseCors("AllowAllOrigins")
    .UseExceptionHandler()
    .UseSwagger()
@@ -69,7 +72,8 @@ if (KeycloakSettings?.Realms?.Any() ?? false)
 
 app.UseHttpsRedirection()
    .UseHttpsRedirection()
-   .UseMiddleware<ConfigValidationMiddleware>();
+   .UseMiddleware<ConfigValidationMiddleware>()
+   .UseHealthCheckers();
 
 app.MapControllers();
 
