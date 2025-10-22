@@ -23,7 +23,6 @@ namespace Feijuca.Auth.Infra.CrossCutting.Extensions
                     .AddUrlGroup(
                         keycloakHealthUri,
                         name: "keycloak",
-                        failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
                         tags: ["keycloak", "auth"]);
             }
 
