@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 using System.Text.RegularExpressions;
 
-namespace Feijuca.Auth.Infra.CrossCutting.stages
+namespace Feijuca.Auth.Infra.CrossCutting.Stages
 {
     public static class TenantStageFilter
     {
