@@ -61,7 +61,7 @@ public class RealmsController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
-    [Route("enable", Name = nameof(ReplicateRealm))]
+    [Route("enable", Name = nameof(EnableRealm))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
