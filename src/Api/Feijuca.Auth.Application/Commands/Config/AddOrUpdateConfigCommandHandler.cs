@@ -18,7 +18,6 @@ namespace Feijuca.Auth.Application.Commands.Config
 
             tenantService.SetTenants([new Tenant(request!.Request!.Realms!.First()!.Name!)]);
 
-            request.Request!.Realms!.First()!.DefaultSwaggerTokenGeneration = true;
             request.Request!.Realms!.First()!.Audience = Constants.FeijucaApiClientName;
 
             var existingConfig = await configRepository.GetConfigAsync();
