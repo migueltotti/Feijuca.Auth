@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace Feijuca.Auth.Extensions;
 
@@ -21,9 +22,7 @@ public static class TenantAuthExtensions
         return services;
     }
 
-    public static IServiceCollection AddKeyCloakAuth(this IServiceCollection services,
-        IEnumerable<Realm>? realms = null,
-        IEnumerable<Policy>? policies = null)
+    public static IServiceCollection AddKeyCloakAuth(this IServiceCollection services, IEnumerable<Realm>? realms = null)
     {
         var provider = services.BuildServiceProvider();
         var authClient = provider.GetRequiredService<IFeijucaAuthClient>();
@@ -47,7 +46,7 @@ public static class TenantAuthExtensions
                     };
                 });
 
-        ConfigureAuthorization(services, policies);
+        ConfigureAuthorization(services, []);
 
         return services;
     }
@@ -59,7 +58,6 @@ public static class TenantAuthExtensions
             try
             {
                 var endpoint = context.HttpContext.GetEndpoint();
-
                 var hasAuthorize = endpoint?.Metadata?.GetMetadata<Microsoft.AspNetCore.Authorization.AuthorizeAttribute>() != null;
                 if (!hasAuthorize)
                 {
@@ -83,7 +81,7 @@ public static class TenantAuthExtensions
                 }
 
                 IEnumerable<Realm> resolvedRealms;
-                if (realms is not null && realms.Any())
+                if (realms?.Any() ?? false)
                 {
                     resolvedRealms = realms;
                 }
@@ -262,19 +260,16 @@ public static class TenantAuthExtensions
            .AddAuthorization()
            .AddKeycloakAuthorization();
 
-        foreach (var policy in policySettings ?? [])
+        foreach (var policy in (policySettings ?? []).Where(policy => !string.IsNullOrEmpty(policy.Name)))
         {
-            if (!string.IsNullOrEmpty(policy.Name))
-            {
-                services
-                    .AddAuthorizationBuilder()
-                    .AddPolicy(policy.Name, p =>
-                    {
-                        p.RequireResourceRolesForClient(
-                            "feijuca-auth-api",
-                            [.. policy.Roles!]);
-                    });
-            }
+            services
+                .AddAuthorizationBuilder()
+                .AddPolicy(policy.Name, p =>
+                {
+                    p.RequireResourceRolesForClient(
+                        "feijuca-auth-api",
+                        [.. policy.Roles!]);
+                });
         }
     }
 }
