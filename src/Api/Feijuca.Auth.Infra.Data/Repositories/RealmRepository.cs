@@ -2,6 +2,7 @@
 using Feijuca.Auth.Domain.Interfaces;
 using Flurl;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 using System.Text;
 
 namespace Feijuca.Auth.Infra.Data.Repositories
@@ -65,6 +66,26 @@ namespace Feijuca.Auth.Infra.Data.Repositories
                 .AppendPathSegment(name);
 
             using var response = await httpClient.DeleteAsync(url, cancellationToken);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> EnableDisableRealmAsync(string name, bool enable, CancellationToken cancellationToken)
+        {
+            var tokenDetails = await _authRepository.GetAccessTokenAsync(cancellationToken);
+            using var httpClient = CreateHttpClientWithHeaders(tokenDetails.Data.Access_Token);
+
+            var url = httpClient.BaseAddress
+                .AppendPathSegment("admin")
+                .AppendPathSegment("realms")
+                .AppendPathSegment(name);
+
+            var payload = new
+            {
+                enabled = enable
+            };
+
+            using var response = await httpClient.PutAsJsonAsync(url, payload, cancellationToken);
 
             return response.IsSuccessStatusCode;
         }

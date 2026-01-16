@@ -9,5 +9,6 @@ namespace Feijuca.Auth.Domain.Interfaces
         Task<bool> DeleteRealmAsync(string name, CancellationToken cancellationToken);
         Task<bool> CreateRealmAsync(RealmEntity realm, CancellationToken cancellationToken);
         Task<bool> UpdateRealmUnmanagedAttributePolicyAsync(string realmName, CancellationToken cancellationToken);
+        Task<bool> EnableDisableRealmAsync(string name, bool enable, CancellationToken cancellationToken);
     }
 }

@@ -21,6 +21,11 @@ namespace Feijuca.Auth.Common.Errors
             $"An error occurred while trying delete the realm. {TechnicalMessage}"
         );
 
+        public static Error DisableRealmError => new(
+            "Realm.DisableRealmError",
+            $"An error occurred while trying disable/enable the realm. {TechnicalMessage}"
+        );
+
         public static Error ReplicateRealmError => new(
             "Realm.ReplicateRealmError",
             $"An error occurred while trying replicate the realm. {TechnicalMessage}"

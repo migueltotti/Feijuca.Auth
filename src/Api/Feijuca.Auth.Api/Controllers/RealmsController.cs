@@ -60,6 +60,24 @@ public class RealmsController(IMediator mediator) : ControllerBase
         return BadRequest(result.Error);
     }
 
+    [HttpPost]
+    [Route("enable", Name = nameof(ReplicateRealm))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [RequiredRole("Feijuca.ApiWriter")]
+    public async Task<IActionResult> EnableRealm([FromBody] EnableRealmRequest enableRealmRequest, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new EnableRealmCommand(enableRealmRequest), cancellationToken);
+
+        if (result.IsSuccess)
+        {
+            return Created($"/enable", result.Data);
+        }
+
+        return BadRequest(result.Error);
+    }
+
     /// <summary>
     /// Create a new realm on Keycloak
     /// </summary>
