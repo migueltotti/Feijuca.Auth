@@ -90,10 +90,11 @@ public static class TenantAuthExtensions
                 else
                 {
                     var tenants = await authClient.GetRealmsAsync(token, CancellationToken.None);
+
                     resolvedRealms = tenants.Data.Select(realm => new Realm
                     {
                         Name = realm.Realm,
-                        Issuer = string.Empty //realm.Issuer
+                        Issuer = realm.Issuer
                     });
                 }
 
