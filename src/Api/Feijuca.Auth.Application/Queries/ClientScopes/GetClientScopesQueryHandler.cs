@@ -7,7 +7,7 @@ using Feijuca.Auth.Providers;
 namespace Feijuca.Auth.Application.Queries.ClientScopes;
 
 public class GetClientScopesQueryHandler(IClientScopesRepository clientScopesRepository, ITenantProvider tenantProvider) 
-    : IRequestHandler<GetClientScopesQuery, IEnumerable<ClientScopesResponse>>
+    : IQueryHandler<GetClientScopesQuery, IEnumerable<ClientScopesResponse>>
 {
     public async Task<IEnumerable<ClientScopesResponse>> HandleAsync(GetClientScopesQuery request, CancellationToken cancellationToken)
     {

@@ -10,7 +10,7 @@ public class AddClientRoleToGroupCommandHandler(IGroupRepository groupRepository
     IGroupRolesRepository roleGroupRepository, 
     IClientRoleRepository roleRepository,
     ITenantProvider tenantProvider) 
-    : IRequestHandler<AddClientRoleToGroupCommand, Result<bool>>
+    : ICommandHandler<AddClientRoleToGroupCommand, Result<bool>>
 {
     private readonly IGroupRepository _groupRepository = groupRepository;
     private readonly IGroupRolesRepository _roleGroupRepository = roleGroupRepository;

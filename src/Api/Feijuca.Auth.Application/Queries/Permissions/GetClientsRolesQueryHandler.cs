@@ -1,15 +1,15 @@
-﻿using Feijuca.Auth.Common.Errors;
-using Mattioli.Configurations.Models;
+﻿using Feijuca.Auth.Application.Responses;
+using Feijuca.Auth.Common.Errors;
 using Feijuca.Auth.Domain.Interfaces;
-using Feijuca.Auth.Application.Responses;
-using LiteBus.Queries.Abstractions;
 using Feijuca.Auth.Providers;
+using LiteBus.Queries.Abstractions;
+using Mattioli.Configurations.Models;
 
 namespace Feijuca.Auth.Application.Queries.Permissions
 {
     public class GetClientsRolesQueryHandler(IClientRepository clientRepository, 
         IClientRoleRepository roleRepository,
-        ITenantProvider tenantProvider) : IRequestHandler<GetClientRolesQuery, Result<IEnumerable<ClientRoleResponse>>>
+        ITenantProvider tenantProvider) : IQueryHandler<GetClientRolesQuery, Result<IEnumerable<ClientRoleResponse>>>
     {
         private readonly IClientRepository _clientRepository = clientRepository;
         private readonly IClientRoleRepository _roleRepository = roleRepository;

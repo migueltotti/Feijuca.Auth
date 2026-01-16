@@ -78,7 +78,7 @@ namespace Feijuca.Auth.Api.Controllers
                 if (includeRealm)
                 {
                     var addRealmRequest = new AddRealmRequest(addKeycloakSettings.Realm.Name!.ToLower(), "");
-                    var realmResult = await _mediator.Send(new AddRealmsCommand([addRealmRequest]), cancellationToken);
+                    var realmResult = await commandMediator.SendAsync(new AddRealmsCommand([addRealmRequest]), cancellationToken);
                     if (realmResult.IsFailure)
                     {
                         return BadRequest("Failed to create realm.");

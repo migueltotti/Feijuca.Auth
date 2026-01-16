@@ -5,7 +5,7 @@ using Feijuca.Auth.Providers;
 
 namespace Feijuca.Auth.Application.Commands.GroupUser
 {
-    public class AddUserToGroupCommandHandler(IGroupUsersRepository userGroupRepository, ITenantProvider tenantProvider) : IRequestHandler<AddUserToGroupCommand, Result<bool>>
+    public class AddUserToGroupCommandHandler(IGroupUsersRepository userGroupRepository, ITenantProvider tenantProvider) : ICommandHandler<AddUserToGroupCommand, Result<bool>>
     {
         private readonly IGroupUsersRepository _userGroupRepository = userGroupRepository;
 

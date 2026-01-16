@@ -1,7 +1,7 @@
 ﻿using Feijuca.Auth.Application.Responses;
-using MediatR;
+using LiteBus.Queries.Abstractions;
 
 namespace Feijuca.Auth.Application.Queries.Realm
 {
-    public record GetRealmsQuery() : IRequest<IEnumerable<RealmResponse>>;
+    public record GetRealmsQuery() : IQuery<IEnumerable<RealmResponse>>;
 }

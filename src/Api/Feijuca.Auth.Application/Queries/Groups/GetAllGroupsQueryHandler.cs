@@ -8,7 +8,7 @@ using Feijuca.Auth.Providers;
 
 namespace Feijuca.Auth.Application.Queries.Groups
 {
-    public class GetAllGroupsQueryHandler(IGroupRepository groupRepository, ITenantProvider tenantProvider) : IRequestHandler<GetAllGroupsQuery, Result<IEnumerable<GroupResponse>>>
+    public class GetAllGroupsQueryHandler(IGroupRepository groupRepository, ITenantProvider tenantProvider) : IQueryHandler<GetAllGroupsQuery, Result<IEnumerable<GroupResponse>>>
     {
         private readonly IGroupRepository _groupRepository = groupRepository;
 

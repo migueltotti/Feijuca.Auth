@@ -1,8 +1,7 @@
 ﻿using Feijuca.Auth.Common.Errors;
-using Mattioli.Configurations.Models;
 using Feijuca.Auth.Domain.Interfaces;
 using LiteBus.Commands.Abstractions;
-using Feijuca.Auth.Providers;
+using Mattioli.Configurations.Models;
 
 namespace Feijuca.Auth.Application.Commands.UserAttributes
 {

@@ -9,7 +9,7 @@ using LiteBus.Queries.Abstractions;
 
 namespace Feijuca.Auth.Application.Queries.Users
 {
-    public class GetUsersQueryHandler(IUserRepository _userRepository, ITenantProvider _tenantService) : IRequestHandler<GetUsersQuery, Result<PagedResult<UserResponse>>>
+    public class GetUsersQueryHandler(IUserRepository _userRepository, ITenantProvider _tenantService) : IQueryHandler<GetUsersQuery, Result<PagedResult<UserResponse>>>
     {
         public async Task<Result<PagedResult<UserResponse>>> HandleAsync(GetUsersQuery request, CancellationToken cancellationToken)
         {

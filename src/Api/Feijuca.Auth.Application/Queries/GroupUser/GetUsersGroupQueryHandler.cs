@@ -1,17 +1,16 @@
-﻿using Feijuca.Auth.Common.Errors;
-using Mattioli.Configurations.Models;
-using Feijuca.Auth.Application.Mappers;
-using Feijuca.Auth.Domain.Interfaces;
-using MediatR;
-using Feijuca.Auth.Providers;
+﻿using Feijuca.Auth.Application.Mappers;
 using Feijuca.Auth.Application.Responses;
+using Feijuca.Auth.Common.Errors;
+using Feijuca.Auth.Domain.Interfaces;
+using Feijuca.Auth.Providers;
 using LiteBus.Queries.Abstractions;
+using Mattioli.Configurations.Models;
 
 namespace Feijuca.Auth.Application.Queries.GroupUser
 {
     public class GetUsersGroupQueryHandler(IGroupRepository groupRepository,
         IUserRepository userRepository,
-        ITenantProvider tenantService) : IRequestHandler<GetUsersGroupQuery, Result<PagedResult<UserGroupResponse>>>
+        ITenantProvider tenantService) : IQueryHandler<GetUsersGroupQuery, Result<PagedResult<UserGroupResponse>>>
     {
         private readonly IGroupRepository _groupRepository = groupRepository;
         private readonly IUserRepository _userRepository = userRepository;

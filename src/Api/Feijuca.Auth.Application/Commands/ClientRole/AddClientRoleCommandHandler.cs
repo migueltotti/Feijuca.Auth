@@ -1,13 +1,12 @@
 ﻿using Feijuca.Auth.Common.Errors;
-using Mattioli.Configurations.Models;
 using Feijuca.Auth.Domain.Interfaces;
-using LiteBus.Commands.Abstractions;
-using MediatR;
 using Feijuca.Auth.Providers;
+using LiteBus.Commands.Abstractions;
+using Mattioli.Configurations.Models;
 
 namespace Feijuca.Auth.Application.Commands.ClientRole
 {
-    public class AddClientRoleCommandHandler(IClientRoleRepository clientRolesRepository, ITenantProvider tenantProvider) : IRequestHandler<AddClientRoleCommand, Result<bool>>
+    public class AddClientRoleCommandHandler(IClientRoleRepository clientRolesRepository, ITenantProvider tenantProvider) : ICommandHandler<AddClientRoleCommand, Result<bool>>
     {
         private readonly IClientRoleRepository _roleRepository = clientRolesRepository;
 

@@ -1,13 +1,12 @@
 ﻿using Feijuca.Auth.Common.Errors;
-using Mattioli.Configurations.Models;
 using Feijuca.Auth.Domain.Interfaces;
-using LiteBus.Commands.Abstractions;
-using MediatR;
 using Feijuca.Auth.Providers;
+using LiteBus.Commands.Abstractions;
+using Mattioli.Configurations.Models;
 
 namespace Feijuca.Auth.Application.Commands.ClientScopeMapper
 {
-    public class AddClientScopeMapperCommandHandler(IClientScopesRepository clientScopesRepository, ITenantProvider tenantProvider) : IRequestHandler<AddClientScopeMapperCommand, Result<bool>>
+    public class AddClientScopeMapperCommandHandler(IClientScopesRepository clientScopesRepository, ITenantProvider tenantProvider) : ICommandHandler<AddClientScopeMapperCommand, Result<bool>>
     {
         public async Task<Result<bool>> HandleAsync(AddClientScopeMapperCommand request, CancellationToken cancellationToken)
         {

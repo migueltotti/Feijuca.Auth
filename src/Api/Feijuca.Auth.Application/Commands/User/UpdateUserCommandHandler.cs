@@ -1,13 +1,12 @@
 ﻿using Feijuca.Auth.Application.Mappers;
-using Mattioli.Configurations.Models;
 using Feijuca.Auth.Domain.Interfaces;
-using Feijuca.Auth.Services;
-using LiteBus.Commands.Abstractions;
 using Feijuca.Auth.Providers;
+using LiteBus.Commands.Abstractions;
+using Mattioli.Configurations.Models;
 
 namespace Feijuca.Auth.Application.Commands.User
 {
-    public class UpdateUserCommandHandler(IUserRepository _userRepository, ITenantProvider tenantService) : IRequestHandler<UpdateUserCommand, Result<bool>>
+    public class UpdateUserCommandHandler(IUserRepository _userRepository, ITenantProvider tenantService) : ICommandHandler<UpdateUserCommand, Result<bool>>
     {
         public async Task<Result<bool>> HandleAsync(UpdateUserCommand request, CancellationToken cancellationToken)
         {

@@ -9,7 +9,7 @@ namespace Feijuca.Auth.Application.Commands.GroupRoles;
 public class RemoveRoleFromGroupCommandHandler(IGroupRepository groupRepository, 
     IGroupRolesRepository roleGroupRepository, 
     IClientRoleRepository roleRepository,
-    ITenantProvider tenantProvider) : IRequestHandler<RemoveRoleFromGroupCommand, Result<bool>>
+    ITenantProvider tenantProvider) : ICommandHandler<RemoveRoleFromGroupCommand, Result<bool>>
 {
     private readonly IGroupRepository _groupRepository = groupRepository;
     private readonly IGroupRolesRepository _roleGroupRepository = roleGroupRepository;
