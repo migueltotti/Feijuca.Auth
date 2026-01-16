@@ -41,7 +41,7 @@ public static class TenantAuthExtensions
                 {
                     options.Events = new JwtBearerEvents
                     {
-                        OnMessageReceived = OnMessageReceived(realms, authClient),
+                        OnMessageReceived = OnMessageReceived(authClient, realms),
                         OnAuthenticationFailed = OnAuthenticationFailed,
                         OnChallenge = OnChallenge
                     };
@@ -52,7 +52,7 @@ public static class TenantAuthExtensions
         return services;
     }
 
-    private static Func<MessageReceivedContext, Task> OnMessageReceived(IEnumerable<Realm>? realms = null, IFeijucaAuthClient authClient)
+    private static Func<MessageReceivedContext, Task> OnMessageReceived(IFeijucaAuthClient authClient, IEnumerable<Realm>? realms = null)
     {
         return async context =>
         {
