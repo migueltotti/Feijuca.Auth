@@ -25,7 +25,7 @@ public class RealmsController(IMediator mediator) : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [RequiredRole("Feijuca.ApiReader")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> GetRealms(CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetRealmsQuery(), cancellationToken);
