@@ -1,5 +1,4 @@
 ﻿using Feijuca.Auth.Attributes;
-using Feijuca.Auth.Models;
 using Feijuca.Auth.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

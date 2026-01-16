@@ -4,5 +4,5 @@ namespace Feijuca.Auth.Api.Tests.Models;
 
 public class Settings
 {
-    public required IEnumerable<Realm> Realms { get; set; }
+    public required FeijucaAuthConfiguration Feijuca { get; init; }
 }
