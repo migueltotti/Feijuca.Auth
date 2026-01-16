@@ -19,12 +19,13 @@ namespace Feijuca.Auth.Application.Mappers
 
         public static IEnumerable<RealmResponse> ToResponse(this IEnumerable<RealmEntity> results, string issuer)
         {
-            return results.Select(r => new RealmResponse(
-                issuer.AppendPathSegment("realms").AppendPathSegment(r.Realm),
-                r.Realm,
-                r.DisplayName ?? string.Empty,
-                r.Enabled
-            ));
+            return results
+                .Select(r => new RealmResponse(
+                    issuer.AppendPathSegment("realms").AppendPathSegment(r.Realm),
+                    r.Realm,
+                    r.DisplayName ?? string.Empty,
+                    r.Enabled
+                    ));
         }
     }
 }

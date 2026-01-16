@@ -23,7 +23,7 @@ namespace Feijuca.Auth.Infra.Data.Repositories
             var keycloakRealmContent = await response.Content.ReadAsStringAsync(cancellationToken);
             var realms = JsonConvert.DeserializeObject<IEnumerable<RealmEntity>>(keycloakRealmContent)!;
 
-            return realms ?? [];
+            return realms.Where(x => x.Realm != "master") ?? [];
         }
 
         public async Task<bool> CreateRealmAsync(RealmEntity realm, CancellationToken cancellationToken)
