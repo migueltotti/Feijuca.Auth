@@ -1,5 +1,3 @@
-# Documentation:
-
 Welcome to the **Feijuca..Auth** project!
 
 For more detailed information and to explore the project's documentation, please visit our GitHub Pages hosted documentation by following the link below:
