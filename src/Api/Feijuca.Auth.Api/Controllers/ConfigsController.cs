@@ -170,9 +170,9 @@ namespace Feijuca.Auth.Api.Controllers
             }
 
             var addUserRequest = new AddUserRequest(
-                keyCloakSettings.RealmAdminUser.Email,
+                keyCloakSettings.RealmAdminUser.Username,
                 keyCloakSettings.RealmAdminUser.Password,
-                keyCloakSettings.RealmAdminUser.Email,
+                keyCloakSettings.RealmAdminUser.Username,
                 "Admin",
                 "Admin",
                 []);
