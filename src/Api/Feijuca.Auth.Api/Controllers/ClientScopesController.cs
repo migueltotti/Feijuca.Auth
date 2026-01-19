@@ -3,7 +3,8 @@ using Feijuca.Auth.Application.Queries.ClientScopes;
 using Feijuca.Auth.Application.Requests.Client;
 using Feijuca.Auth.Application.Requests.ClientScopes;
 using Feijuca.Auth.Attributes;
-using MediatR;
+using LiteBus.Commands.Abstractions;
+using LiteBus.Queries.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +13,7 @@ namespace Feijuca.Auth.Api.Controllers
     [Route("api/v1/clients-scopes")]
     [ApiController]
     [Authorize]
-    public class ClientScopesController(IMediator _mediator) : ControllerBase
+    public class ClientScopesController(ICommandMediator commandMediator, IQueryMediator queryMediator) : ControllerBase
     {
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -21,7 +22,7 @@ namespace Feijuca.Auth.Api.Controllers
         [RequiredRole("Feijuca.ApiReader")]
         public async Task<IActionResult> GetClientScopes(CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new GetClientScopesQuery(), cancellationToken);
+            var result = await queryMediator.QueryAsync(new GetClientScopesQuery(), cancellationToken);
             return Ok(result);
         }
 
@@ -32,7 +33,7 @@ namespace Feijuca.Auth.Api.Controllers
         [RequiredRole("Feijuca.ApiWriter")]
         public async Task<IActionResult> AddClientScope([FromBody] AddClientScopesRequest addClientScopesRequest, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new AddClientScopesCommand([addClientScopesRequest]), cancellationToken);
+            var result = await commandMediator.SendAsync(new AddClientScopesCommand([addClientScopesRequest]), cancellationToken);
 
             if (result.IsSuccess)
             {
@@ -58,7 +59,7 @@ namespace Feijuca.Auth.Api.Controllers
         [RequiredRole("Feijuca.ApiWriter")]
         public async Task<IActionResult> AddClientScopeToClient([FromBody] AddClientScopeToClientRequest addClientScopesRequest, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new AddClientScopeToClientCommand(addClientScopesRequest), cancellationToken);
+            var result = await commandMediator.SendAsync(new AddClientScopeToClientCommand(addClientScopesRequest), cancellationToken);
 
             if (result.IsSuccess)
             {

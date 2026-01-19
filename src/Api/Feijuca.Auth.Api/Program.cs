@@ -18,7 +18,7 @@ var applicationSettings = builder.Configuration.ApplyEnvironmentOverridesToSetti
 builder.Services
     .AddExceptionHandler<GlobalExceptionHandler>()
     .AddProblemDetails()
-    .AddMediator()
+    .ConfigureLiteBus()
     .AddRepositories()
     .AddValidators()
     .AddServices()

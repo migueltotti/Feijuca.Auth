@@ -3,8 +3,8 @@ using Feijuca.Auth.Common.Errors;
 using Feijuca.Auth.Domain.Entities;
 using Feijuca.Auth.Domain.Interfaces;
 using Feijuca.Auth.Providers;
+using LiteBus.Commands.Abstractions;
 using Mattioli.Configurations.Models;
-using MediatR;
 
 namespace Feijuca.Auth.Application.Queries.Realm
 {
@@ -16,9 +16,9 @@ namespace Feijuca.Auth.Application.Queries.Realm
         IGroupRepository groupRepository,
         IGroupUsersRepository groupUsersRepository,
         IGroupRolesRepository groupRolesRepository,
-        ITenantProvider tenantProvider) : IRequestHandler<ReplicateRealmCommand, Result<bool>>
+        ITenantProvider tenantProvider) : ICommandHandler<ReplicateRealmCommand, Result<bool>>
     {
-        public async Task<Result<bool>> Handle(ReplicateRealmCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> HandleAsync(ReplicateRealmCommand request, CancellationToken cancellationToken)
         {
             var targetTenant = request.ReplicateRealmRequest.Tenant;
             var originTenant = tenantProvider.Tenant.Name;

@@ -1,18 +1,17 @@
 ﻿using Feijuca.Auth.Application.Mappers;
 using Feijuca.Auth.Common;
 using Feijuca.Auth.Common.Errors;
-using Mattioli.Configurations.Models;
 using Feijuca.Auth.Domain.Interfaces;
 using Feijuca.Auth.Models;
 using Feijuca.Auth.Providers;
-
-using MediatR;
+using LiteBus.Commands.Abstractions;
+using Mattioli.Configurations.Models;
 
 namespace Feijuca.Auth.Application.Commands.Config
 {
-    public class AddOrUpdateConfigCommandHandler(IConfigRepository configRepository, ITenantProvider tenantService) : IRequestHandler<AddOrUpdateConfigCommand, Result<bool>>
+    public class AddOrUpdateConfigCommandHandler(IConfigRepository configRepository, ITenantProvider tenantService) : ICommandHandler<AddOrUpdateConfigCommand, Result<bool>>
     {
-        public async Task<Result<bool>> Handle(AddOrUpdateConfigCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> HandleAsync(AddOrUpdateConfigCommand request, CancellationToken cancellationToken)
         {
             bool result;
 

@@ -1,11 +1,11 @@
 ﻿using Feijuca.Auth.Domain.Interfaces;
-using MediatR;
+using LiteBus.Queries.Abstractions;
 
 namespace Feijuca.Auth.Application.Queries.Realm
 {
-    public class GetRealmConfigurationQueryHandler(IRealmRepository _realmRepository) : IRequestHandler<GetRealmConfigurationQuery, string>
+    public class GetRealmConfigurationQueryHandler(IRealmRepository _realmRepository) : IQueryHandler<GetRealmConfigurationQuery, string>
     {
-        public async Task<string> Handle(GetRealmConfigurationQuery request, CancellationToken cancellationToken)
+        public async Task<string> HandleAsync(GetRealmConfigurationQuery request, CancellationToken cancellationToken)
         {
             await _realmRepository.GetRealmConfigAsync(request.Name, cancellationToken);
             throw new NotImplementedException();

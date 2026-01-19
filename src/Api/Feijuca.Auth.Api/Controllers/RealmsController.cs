@@ -2,7 +2,8 @@
 using Feijuca.Auth.Application.Queries.Realm;
 using Feijuca.Auth.Application.Requests.Realm;
 using Feijuca.Auth.Attributes;
-using MediatR;
+using LiteBus.Commands.Abstractions;
+using LiteBus.Queries.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,8 @@ namespace Feijuca.Auth.Api.Controllers;
 [Route("api/v1/realms")]
 [ApiController]
 [Authorize]
-public class RealmsController(IMediator mediator) : ControllerBase
+public class RealmsController(ICommandMediator commandMediator, IQueryMediator queryMediator) : ControllerBase
 {
-    private readonly IMediator _mediator = mediator;
-
     /// <summary>
     /// Retrieves all registred realms.
     /// </summary>
@@ -28,7 +27,7 @@ public class RealmsController(IMediator mediator) : ControllerBase
     [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> GetRealms(CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new GetRealmsQuery(), cancellationToken);
+        var result = await queryMediator.QueryAsync(new GetRealmsQuery(), cancellationToken);
 
         return Ok(result);
     }
@@ -50,7 +49,7 @@ public class RealmsController(IMediator mediator) : ControllerBase
     [RequiredRole("Feijuca.ApiWriter")]
     public async Task<IActionResult> ReplicateRealm([FromBody] ReplicateRealmRequest replicateRealmRequest, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new ReplicateRealmCommand(replicateRealmRequest), cancellationToken);
+        var result = await commandMediator.SendAsync(new ReplicateRealmCommand(replicateRealmRequest), cancellationToken);
 
         if (result.IsSuccess)
         {
@@ -68,7 +67,7 @@ public class RealmsController(IMediator mediator) : ControllerBase
     [RequiredRole("Feijuca.ApiWriter")]
     public async Task<IActionResult> EnableRealm([FromBody] EnableRealmRequest enableRealmRequest, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new EnableRealmCommand(enableRealmRequest), cancellationToken);
+        var result = await commandMediator.SendAsync(new EnableRealmCommand(enableRealmRequest), cancellationToken);
 
         if (result.IsSuccess)
         {
@@ -94,7 +93,7 @@ public class RealmsController(IMediator mediator) : ControllerBase
     [RequiredRole("Feijuca.ApiWriter")]
     public async Task<IActionResult> AddRealm([FromBody] AddRealmRequest realm, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new AddRealmsCommand([realm]), cancellationToken);
+        var result = await commandMediator.SendAsync(new AddRealmsCommand([realm]), cancellationToken);
 
         if (result.IsSuccess)
         {

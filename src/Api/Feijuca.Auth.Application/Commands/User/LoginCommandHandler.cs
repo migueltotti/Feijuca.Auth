@@ -1,16 +1,16 @@
 ﻿using Feijuca.Auth.Application.Mappers;
-using Mattioli.Configurations.Models;
 using Feijuca.Auth.Domain.Interfaces;
 using Feijuca.Auth.Http.Responses;
 using Feijuca.Auth.Models;
 using Feijuca.Auth.Providers;
-using MediatR;
+using LiteBus.Commands.Abstractions;
+using Mattioli.Configurations.Models;
 
 namespace Feijuca.Auth.Application.Commands.User
 {
-    public class LoginCommandHandler(IUserRepository userRepository, ITenantProvider tenantService) : IRequestHandler<LoginCommand, Result<TokenDetailsResponse>>
+    public class LoginCommandHandler(IUserRepository userRepository, ITenantProvider tenantService) : ICommandHandler<LoginCommand, Result<TokenDetailsResponse>>
     {
-        public async Task<Result<TokenDetailsResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<Result<TokenDetailsResponse>> HandleAsync(LoginCommand request, CancellationToken cancellationToken)
         {
             tenantService.SetTenants([new Tenant(request.Tenant)]);
 
