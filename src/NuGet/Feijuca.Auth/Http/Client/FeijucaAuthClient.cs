@@ -8,8 +8,12 @@ namespace Feijuca.Auth.Http.Client
 {
     public class FeijucaAuthClient(HttpClient httpClient) : BaseHttpClient(httpClient), IFeijucaAuthClient
     {
-        public async Task<Result<TokenDetailsResponse>> AuthenticateUserAsync(string username, string password, CancellationToken cancellationToken)
+        private readonly HttpClient _httpClient = httpClient;
+
+        public async Task<Result<TokenDetailsResponse>> AuthenticateUserAsync(string tenant, string username, string password, CancellationToken cancellationToken)
         {
+            IncludeTenantHeader(tenant);
+
             var result = await PostAsync<LoginUserRequest, TokenDetailsResponse>("users/login", new LoginUserRequest(username, password), cancellationToken);
 
             if (string.IsNullOrEmpty(result.AccessToken))
@@ -20,8 +24,10 @@ namespace Feijuca.Auth.Http.Client
             return Result<TokenDetailsResponse>.Success(result);
         }
 
-        public async Task<Result<UserResponse>> GetUserAsync(string userame, string jwtToken, CancellationToken cancellationToken)
+        public async Task<Result<UserResponse>> GetUserAsync(string tenant, string userame, string jwtToken, CancellationToken cancellationToken)
         {
+            IncludeTenantHeader(tenant);
+
             var url = $"users?Usernames={userame}";
             var result = await GetAsync<PagedResult<UserResponse>>(url, jwtToken, cancellationToken);
 
@@ -35,8 +41,10 @@ namespace Feijuca.Auth.Http.Client
             return Result<UserResponse>.Success(user!);
         }
 
-        public async Task<Result<PagedResult<UserResponse>>> GetUsersAsync(int maxUsers, string jwtToken, CancellationToken cancellationToken)
+        public async Task<Result<PagedResult<UserResponse>>> GetUsersAsync(string tenant, int maxUsers, string jwtToken, CancellationToken cancellationToken)
         {
+            IncludeTenantHeader(tenant);
+
             var url = $"users?PageFilter.Page=1&PageFilter.PageSize={maxUsers}";
             var result = await GetAsync<PagedResult<UserResponse>>(url, jwtToken, cancellationToken);
 
@@ -48,8 +56,10 @@ namespace Feijuca.Auth.Http.Client
             return Result<PagedResult<UserResponse>>.Success(result);
         }
 
-        public async Task<Result<IEnumerable<GroupResponse>>> GetGroupsAsync(string jwtToken, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<GroupResponse>>> GetGroupsAsync(string tenant, string jwtToken, CancellationToken cancellationToken)
         {
+            IncludeTenantHeader(tenant);
+
             var result = await GetAsync<IEnumerable<GroupResponse>>("groups", jwtToken, cancellationToken);
 
             if (!result.Any())
@@ -70,6 +80,19 @@ namespace Feijuca.Auth.Http.Client
             }
 
             return Result<IEnumerable<RealmResponse>>.Success(result);
+        }
+
+        private void IncludeTenantHeader(string tenant)
+        {
+            if (!string.IsNullOrEmpty(tenant))
+            {
+                if (_httpClient.DefaultRequestHeaders.Contains("Tenant"))
+                {
+                    _httpClient.DefaultRequestHeaders.Remove("Tenant");
+                }
+
+                _httpClient.DefaultRequestHeaders.Add("Tenant", tenant);
+            }
         }
     }
 }
